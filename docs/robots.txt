@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://4yuinfo.github.io/zola-theme_jiufen/sitemap.xml

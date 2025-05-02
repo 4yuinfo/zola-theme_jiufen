@@ -1,0 +1,20 @@
+{% set taxonomyAll = config.taxonomies -%}
+{% for taxonomyConf in taxonomyAll -%}
+    {% set taxonomyName = taxonomyConf.name -%}
+    {% set taxonomyArray = get_taxonomy(kind=taxonomyName) -%}
+    {% set taxonomyTrem = taxonomyArray.items -%}
+<div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+        <h4><i class="fa fa-tags"> {{ taxonomyName }} </i></h4>
+    </div>
+    <div class="w3-container w3-white">
+        <p>
+        {% for trem in taxonomyTrem -%}
+            {% if trem.page_count > 0 -%}
+            <span class="w3-tag w3-light-grey w3-margin-bottom"><a href="{{-get_url(path='/', trailing_slash=false)-}}/tags/{{trem.name | safe }}/" class="w3-button">{{trem.name}} <span class="w3-badge w3-green">{{ trem.page_count }}</span></a></span>&nbsp;
+            {% endif -%}
+        {% endfor -%}
+        </p>
+    </div>
+</div><hr/>
+{% endfor -%}

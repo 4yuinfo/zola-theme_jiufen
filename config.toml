@@ -1,0 +1,52 @@
+base_url = "https://4yuinfo.github.io/zola-theme_jiufen/"
+default_language = "zh-Hant-TW"
+title = "Jiufen"
+description = ""
+compile_sass = false
+minify_html = false
+build_search_index = true
+generate_feeds = true
+generate_sitemap = true
+generate_robots_txt = true
+#travel="zola-theme_jiufen"
+
+taxonomies = [
+    {name = "tags", feed = true, paginate_by = 10 },
+]
+
+[slugify]
+taxonomies = "safe"
+
+[markdown]
+highlight_code = true
+error_on_missing_highlight = false
+#highlight_theme = "material-dark"
+#highlight_theme = "one-dark"
+#highlight_theme = "railsbase16-green-screen-dark"
+highlight_theme = "solarized-dark"
+#highlight_theme = "nord"
+render_emoji = true
+smart_punctuation = true
+definition_list = true
+lazy_async_image = false
+bottom_footnotes = false
+insert_anchor_links = "none"
+
+[search]
+include_title = true
+include_content = true
+include_description = true
+include_date = false
+include_path = false
+index_format = "fuse_javascript"
+
+[extra]
+site_name = '<img src="https://4yuinfo.github.io/zola-theme_jiufen/images/header001.png" width="100%")'
+site_desc = "Welcome to the Zola Theme Jiufen introduction website."
+copyright = "Copyright © 2025 Jiufen All rights reserved."
+navigation = [
+    {name = '<i class="fa fa-home"></i>', url = "/" },
+    {name = "Theme", url = "/theme/" },
+    {name = "Travel", url = "/travel/" },
+    {name = "404", url = "/404/" },
+]

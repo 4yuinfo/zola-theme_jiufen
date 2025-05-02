@@ -1,0 +1,23 @@
+<div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+        <h4><i class="fa fa-indent"> Index </i></h4>
+    </div>
+    <div class="w3-container w3-white">
+        <ul>
+            {% for h1 in page.toc %}
+            <li>
+                <a href="{{ h1.permalink | safe }}" style="text-decoration:none">{{ h1.title }}</a>
+                {% if h1.children %}
+                <ul>
+                    {% for h2 in h1.children %}
+                    <li>
+                        <a href="{{ h2.permalink | safe }}" style="text-decoration:none">{{ h2.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div><hr/>

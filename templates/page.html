@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block headerTitle %}
+{%- if config.title -%}
+    {{ page.title }} - {{ config.title }}
+{%- else -%}
+    {{ page.title }}
+{%- endif -%}
+{% endblock %}
+
+{% block content %}
+<div class="w3-card-4 w3-margin w3-white">
+  {%- if page.extra.image -%}
+    {%- if page.extra.image is matching("^http") -%}
+        {%- set image = page.extra.image -%}
+    {%- else -%}
+        {%- set image = get_url(path='/', trailing_slash=true) ~ page.extra.image -%}
+    {%- endif -%}
+  <img src="{{- image -}}" style="width:100%;">
+  {%- endif -%}
+  <div class="w3-container w3-light-grey">
+    <h1><b>{{ page.title }}</b></h1>
+    <h5>
+        <span class="w3-opacity">
+            {{ page.date }}
+            {%- if page.authors -%}
+                {%- for author in page.authors -%}
+                    {{- ", " ~ author -}}
+                {%- endfor-%}
+            {%- endif -%}
+        </span>
+    </h5>
+  </div>
+  <div class="w3-container"><p>{{- page.content | safe -}}</p></div>
+  <div class="w3-container w3-light-grey">
+      <h5>
+        <span class="w3-opacity"><i class="fa fa-tag"></i>
+        {%- if page.taxonomies -%}
+            {%- for key, value in page.taxonomies -%}
+                {%- for trem in value -%}
+                    <span class="w3-tag w3-light-grey w3-margin-bottom">
+                        <a href="{{-get_url(path='/', trailing_slash=false)-}}/tags/{{- trem | safe-}}/" >{{- trem -}}</a>
+                    </span>
+                {%- endfor-%}
+            {%- endfor-%}
+        {%- endif -%}
+
+        </span>
+        </h5>
+    </div>
+</div><hr/>
+{% endblock content %}

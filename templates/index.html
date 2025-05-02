@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block headerTitle %}
+{%- set file_exists = load_data(path="home.md", required=false) -%}
+{%- if file_exists -%}
+    {%- set page = get_page(path="home.md") -%}
+{%- else -%}
+    {%- set page = config -%}
+{%- endif -%}
+{{ page.title }}
+{% endblock %}
+
+{% block content %}
+{%- set file_exists = load_data(path="home.md", required=false) -%}
+{%- if file_exists -%}
+    {%- set page = get_page(path="home.md") -%}
+{%- else -%}
+    {%- set page = config -%}
+{%- endif -%}
+{%- if file_exists -%}
+<div class="w3-card-4 w3-margin w3-white">
+  {%- if page.extra.image -%}
+  <img src="{{- page.extra.image -}}" style="width:100%;">
+  {%- endif -%}
+  <div class="w3-container w3-light-grey">
+    <h1><b>{{- page.title -}}</b></h1>
+    <h5><span class="w3-opacity">{{- page.date -}}</span></h5>
+  </div>
+  <div class="w3-container">
+    <p>
+      {{- page.content | safe -}}
+    </p>
+  </div>
+</div><hr/>
+{%- else -%}
+    {%- set subsections = section.subsections -%}
+    {%- if subsections | length() > 0 -%}
+        {%- for subsection in subsections -%}
+            {%- set data = get_section(path=subsection) -%}
+<div class="w3-container w3-padding w3-light-grey">
+    <h1><b><a href="{{- data.path  -}}" style="text-decoration:none">{{- data.title  -}}</a></b></h1>
+</div>
+<div class="w3-container">
+    {%- for page in data.pages -%}
+        {%- if loop.index < 10 -%}
+    <div class="w3-panel w3-border-bottom w3-border-green">
+        <a href="{{ page.path }}" style="text-decoration:none">{{ page.title }}</a>
+    </div>
+        {%- endif -%}
+        {%- if loop.index == 10 -%}
+    <div class="w3-panel w3-pale-blue w3-leftbar w3-rightbar w3-border-green">
+        <a href="{{ data.path }}" style="text-decoration:none">More...</a>
+    </div>
+        {%- endif -%}
+    {% endfor %}
+</div><hr/>
+        {%- endfor -%}
+    {%- else -%}
+<div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container w3-light-grey">
+        <h1><b>{{- page.title -}}</b></h1>
+    </div>
+    <div class="w3-container">
+        <p>
+            Please create a file named <span class="w3-tag w3-round w3-green w3-border w3-border-white">home.md</span>
+            in the <span class="w3-tag w3-round w3-green w3-border w3-border-white">context</span> directory.
+        </p>
+    </div>
+</div><hr/>
+    {%- endif -%}
+{%- endif -%}
+{% endblock content %}
+
+{% block taxonomy %}
+{% include "partials/tags.html" %}
+{% endblock taxonomy %}

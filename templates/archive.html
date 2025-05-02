@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block headerTitle %}
+{%- if config.title -%}
+    {{- section.title -}} - {{ config.title }}
+{%- else -%}
+    {{- section.title -}}
+{%- endif -%}
+{% endblock %}
+
+{% block content %}
+{% set section_path = section.relative_path | replace(from="archive/", to="") %}
+{% set posts_section = get_section(path=section_path, to="") %}
+<div class="w3-card w3-margin">
+{% for year, posts in posts_section.pages | group_by(attribute="year") %}
+    <div class="w3-container w3-padding w3-light-grey">
+        <h1>{{ year }}</h1>
+    </div>
+    <div class="w3-container w3-white">
+        {% for post in posts %}
+            {%- if loop.index < 10 -%}
+        <div class="w3-panel w3-border-bottom w3-border-green">
+            <a href="{{ post.permalink }}" style="text-decoration:none">{{ post.title }}</a>
+        </div>
+            {%- endif -%}
+            {%- if loop.index == 10 -%}
+        <div class="w3-panel w3-pale-blue w3-leftbar w3-rightbar w3-border-green">
+            <a href="{{ posts_section.path }}" style="text-decoration:none">More...</a>
+        </div>
+            {%- endif -%}
+        {% endfor %}
+    </div>
+{% endfor %}
+</div><hr/>
+{% endblock content %}

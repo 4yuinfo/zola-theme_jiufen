@@ -1,0 +1,25 @@
+<nav>
+    <div class="w3-top">
+        <div class="w3-bar w3-black w3-card">
+            <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="mobileNavigation()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+            {%- for navigation in config.extra.navigation -%}
+                {%- if navigation.url is matching('^http') -%}
+                    {%- set url = navigation.url -%}
+                {%- else -%}
+                    {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
+                {%- endif -%}
+            <a href="{{-url-}}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">{{ navigation.name | safe }}</a>
+            {%- endfor -%}
+        </div>
+    </div>
+    <div id="navMoblie" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+        {%- for navigation in config.extra.navigation -%}
+            {%- if navigation.url is matching('^http') -%}
+                {%- set url = navigation.url -%}
+            {%- else-%}
+                {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
+            {%- endif -%}
+        <a href="{{-url-}}" class="w3-bar-item w3-button w3-padding-large" onclick="mobileNavigation()">{{ navigation.name | safe }}</a>
+        {%- endfor -%}
+    </div>
+</nav>

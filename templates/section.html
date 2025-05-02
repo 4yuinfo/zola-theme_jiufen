@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block headerTitle %}
+{%- if config.title -%}
+    {{- section.title -}} - {{ config.title }}
+{%- else -%}
+    {{- section.title -}}
+{%- endif -%}
+{% endblock %}
+
+{% block content %}
+{%- if section.paginate_by -%}
+    {%- set pages = paginator.pages -%}
+{% else %}
+    {%- set pages = section.pages -%}
+{%- endif -%}
+{%- for page in pages -%}
+<div class="w3-card-4 w3-margin w3-white">
+    {%- if page.extra.image -%}
+    {%- if page.extra.image is matching("^http") -%}
+    {%- set image = page.extra.image -%}
+    {%- else -%}
+    {%- set image = get_url(path='/', trailing_slash=false) ~ page.extra.image -%}
+    {%- endif -%}
+    <img src="{{- image -}}" style="width:100%;">
+    {%- endif -%}
+    <div class="w3-container w3-light-grey">
+        <h1><b>{{- page.title -}}</b></h1>
+        <h5><span class="w3-opacity">{{- page.date -}}</span></h5>
+    </div>
+    <div class="w3-container">
+        <p>
+            {%- if page.summary -%}
+            {{- page.summary | safe -}}
+            {%- else -%}
+            {{- page.content | markdown | truncate(length=100) | safe -}}
+            {%- endif -%}
+        </p>
+    </div>
+    <div class="w3-container">
+        <p><a href="{{ page.permalink | safe }}"><button class="w3-button w3-white w3-border"><b>READ MORE »</b></button></a></p>
+    </div>
+</div><hr/>
+{%- endfor -%}
+{%- if section.paginate_by -%}
+{%- if paginator.number_pagers > 1 -%}
+<div class="w3-bar">
+  {% if paginator.previous %}
+  <a class="previous w3-button" href="{{ paginator.previous }}"> Previous </a>
+  {% else %}
+  <a class="previous w3-button">‹ Previous</a>
+  {% endif %}
+  {%- for i in range(start=1, end=paginator.number_pagers + 1) -%}
+  <a href="{{- paginator.base_url -}}{{- i -}}" class="w3-button">{{- i -}}</a>
+  {%- endfor -%}
+  {% if paginator.next %}
+  <a class="next w3-button" href="{{ paginator.next }}">Next ›</a>
+  {% else %}
+  <a class="next w3-button">Next ›</a>
+  {% endif %}
+</div>
+{%- endif -%}
+{%- endif -%}
+{% endblock content %}

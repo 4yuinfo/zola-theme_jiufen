@@ -1,0 +1,13 @@
+name = "jiufen"
+description = "The ‘jiufen’ theme is a theme that references the W3.CSS Template and incorporates ZOLA-related features."
+tags = ['Blog', 'Responsive', 'Search']
+license = "MIT"
+homepage = "https://github.com/4yuinfo/zola-theme_jiufen"
+min_version = "0.20.0"
+demo = "https://4yuinfo.github.io/zola-theme_jiufen/"
+
+[extra]
+[author]
+name = "Saint Huang"
+homepage = "https://github.com/4yuinfo"
+

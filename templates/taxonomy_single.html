@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block headerTitle %}
+{%- if config.title -%}
+    {{ current_path }} - {{ config.title }}
+{%- else -%}
+    {{ current_path }}
+{%- endif -%}
+{% endblock headerTitle %}
+
+{% block content %}
+{%- if paginator | length() > 0 -%}
+    {%- set data = paginator.pages -%}
+{% else %}
+    {%- set data = term.pages -%}
+{%- endif -%}
+<div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container w3-padding w3-light-grey">
+        <h1><b>{{ term.name }}</b></h1>
+    </div>
+    <div class="w3-container">
+        {% set section = data %}
+        {% for page in section %}
+        <div class="w3-panel w3-border-bottom w3-border-green">
+            <a href="{{-get_url(path='/', trailing_slash=false)-}}{{ page.path }}" style="text-decoration:none">{{ page.title }}</a>
+        </div>
+        {% endfor %}
+    </div>
+    {%- if paginator | length() > 0 -%}
+    {%- if paginator.number_pagers > 1 -%}
+    <div class="w3-container w3-light-grey">
+        <div class="w3-bar ">
+            {% if paginator.previous %}
+            <a class="previous w3-button" href="{{ paginator.previous }}"> Previous </a>
+            {% else %}
+            <a class="previous w3-button">‹ Previous</a>
+            {% endif %}
+            {%- for i in range(start=1, end=paginator.number_pagers + 1) -%}
+            <a href="{{- paginator.base_url -}}{{- i -}}" class="w3-button">{{- i -}}</a>
+            {%- endfor -%}
+            {% if paginator.next %}
+            <a class="next w3-button" href="{{ paginator.next }}">Next ›</a>
+            {% else %}
+            <a class="next w3-button">Next ›</a>
+            {% endif %}
+        </div>
+    </div>
+    {%- endif -%}
+    {%- endif -%}
+</div><hr/>
+{% endblock content %}

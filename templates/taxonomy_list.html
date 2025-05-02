@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block headerTitle %}
+{%- if config.title -%}
+    {{ current_path }} - {{ config.title }}
+{%- else -%}
+    {{ current_path }}
+{%- endif -%}
+{% endblock headerTitle %}
+
+{% block content %}
+{% for term in terms %}
+<div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container w3-padding w3-light-grey">
+        <h1><b>{{ term.name }}</b></h1>
+    </div>
+    <div class="w3-container">
+        {%- set section = term.pages -%}
+        {% for page in section %}
+        <div class="w3-panel w3-border-bottom w3-border-green">
+            <a href="{{-get_url(path='/', trailing_slash=false)-}}{{ page.path }}" >{{ page.title }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div><hr/>
+{% endfor %}
+{% endblock content %}

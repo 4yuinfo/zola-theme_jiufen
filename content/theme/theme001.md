@@ -1,15 +1,24 @@
-# jiufen
-The 'jiufen' theme is a theme that references the [W3.CSS](https://www.w3schools.com/w3css/) 
-Template and incorporates [ZOLA](https://www.getzola.org/)-related features. 
++++
+title = "install"
+date = 2025-05-01
+weight=100
+[taxonomies]
+tags=["Theme"]
+[extra]
+image = "https://4yuinfo.github.io/zola-theme_jiufen/images/header002.png"
++++
 
-Jiufen is the name of an old street located on the island of Formosa (Taiwan). 
+# jiufen
+The 'jiufen' theme is a theme that references the [W3.CSS](https://www.w3schools.com/w3css/)
+Template and incorporates [ZOLA](https://www.getzola.org/)-related features.
+
+Jiufen is the name of an old street located on the island of Formosa (Taiwan).
 If you have the chance, you should definitely visit this island to experience life here.
 
-[DEMO](https://4yuinfo.github.io/zola-theme_jiufen/)
-
-![screenshot](https://4yuinfo.github.io/zola-theme_jiufen/images/screenshot.png)
+{{imagew(path="https://4yuinfo.github.io/zola-theme_jiufen/images/screenshot.png")}}
 
 ## Installation
+{% mermaid()%}
 ```mermaid
 flowchart
     A[1.Installation Zola]
@@ -32,14 +41,16 @@ flowchart
     click A "https://www.getzola.org/documentation/getting-started/installation/" "Install Zola" _blank
     click B "https://www.getzola.org/documentation/getting-started/overview/#initialize-site" "Initialize Site" _blank
 ```
+{% end %}
 
-### 1.Install Zola 
+### 1.Install Zola
 ZOLA DOCS [Installation](https://www.getzola.org/documentation/getting-started/installation/)
 
 ### 2.Initialize Site
 ZOLA DOCS [Initialize Site](https://www.getzola.org/documentation/getting-started/overview/#initialize-site)
 
-```shell
+{% code(code="SHELL",copy=false) %}
+```sh
 # rename [myblog]
 
 zola init [myblog]
@@ -51,40 +62,50 @@ zola init [myblog]
 
 cd [myblog]
 ```
+{%end%}
 
 ### 3.1.Git Initialize
-```shell
+
+{% code(code="SHELL",copy=true) %}
+```sh
 git init;touch .gitignore
 git submodule add https://github.com/4yuinfo/zola-theme_jiufen.git themes/jiufen
 ```
+{%end%}
 
 ### 3.2.Download Theme
 Download And Upzip to Theme
 
 ### 4.1 Copy Sample
-```shell
+
+{% code(code="SHELL",copy=true) %}
+```sh
 mkdir -p content/posts
 cp themes/jiufen/config.toml .
 cp themes/jiufen/content/home.md content/
 ```
+{%end%}
 
 ### 4.2.Edit Config
 ZOLA DOCS [Configuration](https://www.getzola.org/documentation/getting-started/configuration/)
 
 Adjust config.toml
+{% code(code="Editor",copy=true) %}
 ```toml
 #config.toml
 theme="jiufen"
 ```
+{%end%}
 
 ### 5.Other Options Setting
 
 #### Header And Footer
 
 > If Not Setting Hidden Header
-> 
+>
 > Can Use Picture(html tag width set 100%)
 
+{% code(code="Editor",copy=true) %}
 ```toml
 # config.toml
 [extra]
@@ -92,11 +113,13 @@ site_name = 'Zola Theme Jiufen'
 site_desc = "Welcome to the Zola Theme Jiufen introduction website."
 copyright = "Copyright © 2025 Saint Huang All rights reserved."
 ```
+{%end%}
 
 #### Navigation
 
 > If Not Setting Show Home Button
 
+{% code(code="Editor",copy=true) %}
 ```toml
 # config.toml
 [extra]
@@ -108,12 +131,15 @@ navigation = [
     {name = "404", url = "/404/" },
 ]
 ```
+{%end%}
 
 #### Search
 
 > Optional, if you want search
 
 Only Support fuse_javascript
+
+{% code(code="Editor",copy=true) %}
 ```toml
 # config.toml
 build_search_index = true
@@ -129,10 +155,12 @@ include_date = false
 include_path = false
 index_format = "fuse_javascript"
 ```
+{%end%}
 
 #### Home.md
 
 home.md
+{% code(code="Editor",copy=true) %}
 ```toml
 # home.md
 +++
@@ -142,9 +170,11 @@ in_search_index = false
 image = "/images/jiufen.png"    # Option
 +++
 ```
+{%end%}
 
-### Context 
+### Context
 context.md
+{% code(code="Editor",copy=true) %}
 ```toml
 +++
 # context.md
@@ -156,8 +186,10 @@ tags=["Blog", "Camp"]
 image = "/images/jiufen.png" # Option
 +++
 ```
+{%end%}
 
 context/[folder]/_index.md
+{% code(code="Editor",copy=true) %}
 ```toml
 # context/[folder]/_index.md
 +++
@@ -166,36 +198,22 @@ sort_by = "date"  # "date", "update_date", "title", "title_bytes", "weight", "sl
 paginate_by = 5
 +++
 ```
+{%end%}
 
 ### Shortcodes
 
-youtube
-```context
-{{ youtube(id="NSZ6dhQIvXw") }}
-```
+youtube(id="")
 
-imageh100
-imageh200
-imageh300
-```context
-{{ imageh100(path="/images/jiufen.png") }}
-{{ imageh200(path="/images/jiufen.png") }}
-{{ imageh300(path="/images/jiufen.png") }}
-```
+imageh100(path="")
 
-imagew
-```context
-{{ imagew(path="/images/jiufen.png") }}
-```
+imageh200(path="")
 
-code
- 
-```context
-{% code(code="Rust",copy=true) %}
-```Rust
-fn main() {
-    println!("Hello World!");
-}
-``
-{% end %}
-```
+imageh300(path="")
+
+imagehw(path="")
+
+code(code="", copy=true)
+    context
+
+mermaid()
+    context

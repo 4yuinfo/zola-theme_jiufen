@@ -1,0 +1,15 @@
+{%- if not width  -%}
+    {%- set width = "100%" -%}
+{%- endif-%}
+
+{%- if not height -%}
+    {%- set height = "500" -%}
+{%- endif-%}
+
+<iframe
+        width="{{ width }}" height="{{ height }}"
+        src="https://www.youtube-nocookie.com/embed/{{ id }}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+></iframe>

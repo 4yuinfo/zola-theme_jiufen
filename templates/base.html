@@ -1,0 +1,74 @@
+{%- if config.default_language -%}
+    {%- set lang = config.default_language -%}
+{%- else -%}
+    {%- set lang = "en" -%}
+{%- endif -%}
+{%- if config.title -%}
+    {%- set title = config.title -%}
+{%- else -%}
+    {%- set title = "" -%}
+{%- endif -%}
+{%- if config.extra.copyright -%}
+    {%- set copyright = config.extra.copyright -%}
+{%- else -%}
+    {%- set copyright = "" -%}
+{%- endif -%}
+<!DOCTYPE html>
+<html lang="{{- lang -}}">
+<head>
+    <title>{%- block headerTitle -%}{{- title -}}{%- endblock -%}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/css/zh-font-family.css">
+    <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.css">
+</head>
+<body class="w3-light-grey">
+{% if config.extra.navigation %}
+    {% include "partials/navigation-list.html" %}
+{% else %}
+    {% include "partials/navigation-non.html" %}
+{% endif %}
+<main>
+    <div class="w3-content" style="max-width:1400px;margin-top:30px">
+        {%- if config.extra.site_name -%}
+        <header class="w3-container w3-center w3-padding-32">
+            <h1><b>{{- config.extra.site_name | safe -}}</b></h1>
+            {%- if config.extra.site_desc -%}
+            <p>{{- config.extra.site_desc | safe -}}</p>
+            {% endif %}
+        </header>
+        {%- else -%}
+        <header class="w3-container w3-center w3-padding-32">&nbsp;</header>
+        {% endif %}
+        <div class="w3-row">
+            <div class="w3-col l8 s12">
+                {% block content %} {% endblock %}
+            </div>
+            <div class="w3-col l4">
+                {% if page.toc %}{% include "partials/page-toc.html" %}{% endif %}
+                {% if config.taxonomies %}{% include "partials/tags.html" %}{% endif %}
+                {% if config.search.index_format == 'fuse_javascript' %}{% include "partials/search.html" %}{% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="w3-container w3-dark-grey w3-padding-16 w3-margin-top w3-center">
+    <p>
+        {{- copyright -}}<br/>
+        Powered by
+        <a href="https://www.getzola.org/" target="_blank">Zola</a>,
+        <a href="https://www.w3schools.com/w3css/" target="_blank">W3.CSS</a>,
+        <a href="https://github.com/4yuinfo/zola-theme_jiufen" target="_blank">JiuFen</a>.
+    </p>
+</footer>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/+esm'
+</script>
+<script src="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/js/navigation.js"></script>
+<script src="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.js"></script>
+</div>
+</body>
+</html>
