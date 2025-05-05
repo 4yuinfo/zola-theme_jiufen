@@ -8,7 +8,7 @@ build_search_index = true
 generate_feeds = true
 generate_sitemap = true
 generate_robots_txt = true
-#travel="zola-theme_jiufen"
+#travel="jiufen"
 
 taxonomies = [
     {name = "tags", feed = true, paginate_by = 10 },
@@ -44,9 +44,12 @@ index_format = "fuse_javascript"
 site_name = '<img src="https://4yuinfo.github.io/zola-theme_jiufen/images/header001.png" width="100%")'
 site_desc = "Welcome to the Zola Theme Jiufen introduction website."
 copyright = "Copyright © 2025 Jiufen All rights reserved."
+navigation_display_top = true
+navigation_display_sidebar = true
 navigation = [
-    {name = '<i class="fa fa-home"></i>', url = "/" },
-    {name = "Theme", url = "/theme/" },
-    {name = "Travel", url = "/travel/" },
-    {name = "404", url = "/404/" },
+    {name = '<i class="fa fa-home"></i>', url = "/", top=true, sitebar=false },
+    {name = "Theme", url = "/theme/", top=true, sitebar=true },
+    {name = "Travel", url = "/travel/", top=true, sitebar=true },
+    {name = "404", url = "/404/", top=true, sitebar=false },
+    {name = '<i class="fa-brands fa-github"></i> GitHub', url = "https://github.com/4yuinfo/zola-theme_jiufen", top=false, sitebar=true },
 ]

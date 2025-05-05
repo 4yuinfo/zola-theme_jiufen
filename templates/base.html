@@ -26,10 +26,12 @@
     <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.css">
 </head>
 <body class="w3-light-grey">
+{% if config.extra.navigation_display_top %}
 {% if config.extra.navigation %}
     {% include "partials/navigation-list.html" %}
 {% else %}
     {% include "partials/navigation-non.html" %}
+{% endif %}
 {% endif %}
 <main>
     <div class="w3-content" style="max-width:1400px;margin-top:30px">
@@ -49,6 +51,7 @@
             </div>
             <div class="w3-col l4">
                 {% if page.toc %}{% include "partials/page-toc.html" %}{% endif %}
+                {% if config.extra.navigation_display_sidebar %}{% include "partials/navigation-sidebar.html" %}{% endif %}
                 {% if config.taxonomies %}{% include "partials/tags.html" %}{% endif %}
                 {% if config.search.index_format == 'fuse_javascript' %}{% include "partials/search.html" %}{% endif %}
             </div>

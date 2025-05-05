@@ -1,5 +1,5 @@
 +++
-title = "teavel Lukang"
+title = "teavel neiwan"
 date = 2025-05-02
 [taxonomies]
 tags=["Travel"]
@@ -11,7 +11,7 @@ If you have the chance, you should definitely visit this island to experience li
 <!-- more -->
 
 # Attractions
-Lukang was the most important foreign trade port in central Taiwan during the Dutch and Qing dynasties, and was once prosperous due to the development of commerce.
+In the past, Neiwan Old Street was the main road in and out of the Jianshi Mountain area rich in forests and minerals. Because of this, it brought a lot of people to Neiwan in the 1950s. The streets mainly developed from Zhongzheng Road to Guangfu Road, Datong Road, Heping Street, Zhongshan Street and Guangji Road, which were all crowded with people. However, with the decline of the forestry and mining industries, Neiwan's prosperity also went from noisy to quiet.
 
 [WIKIPEDIA](https://zh.wikipedia.org/wiki/%E5%85%A7%E7%81%A3%E8%80%81%E8%A1%97)
 

@@ -95,17 +95,21 @@ copyright = "Copyright © 2025 Saint Huang All rights reserved."
 
 #### Navigation
 
+> Navigation Display Control
 > If Not Setting Show Home Button
+> top and sidebar is option
 
 ```toml
 # config.toml
 [extra]
+navigation_display_top = true
+navigation_display_sidebar = true
 navigation = [
-    {name = '<i class="fa fa-home"></i>', url = "/" },
-    {name = "Blog", url = "/blog/" },
-    {name = "Camp", url = "/camp/" },
-    {name = "Travel", url = "/travel/" },
-    {name = "404", url = "/404/" },
+    {name = '<i class="fa fa-home"></i>', url = "/",top=true, sitebar=false },
+    {name = "Blog", url = "/blog/", top=false, sitebar=true },
+    {name = "Camp", url = "/camp/", top=true, sitebar=false },
+    {name = "Travel", url = "/travel/", top=true, sitebar=false },
+    {name = "404", url = "/404/", top=true, sitebar=false },
 ]
 ```
 

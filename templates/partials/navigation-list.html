@@ -8,7 +8,9 @@
                 {%- else -%}
                     {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
                 {%- endif -%}
+                {%-if navigation.top-%}
             <a href="{{-url-}}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">{{ navigation.name | safe }}</a>
+                {%- endif -%}
             {%- endfor -%}
         </div>
     </div>
@@ -19,7 +21,9 @@
             {%- else-%}
                 {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
             {%- endif -%}
+            {%-if navigation.top-%}
         <a href="{{-url-}}" class="w3-bar-item w3-button w3-padding-large" onclick="mobileNavigation()">{{ navigation.name | safe }}</a>
+            {%- endif -%}
         {%- endfor -%}
     </div>
 </nav>
