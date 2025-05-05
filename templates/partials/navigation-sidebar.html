@@ -10,7 +10,7 @@
                 {%- else -%}
                     {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
                 {%- endif -%}
-                {%-if navigation.sitebar-%}
+                {%-if navigation.sidebar-%}
             <li class="w3-padding-8">
                 <a href="{{-navigation.url-}}" style="text-decoration:none">{{-navigation.name | safe-}}</a>
             </li>
