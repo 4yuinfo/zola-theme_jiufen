@@ -1,31 +1,74 @@
-{%- if config.default_language -%}
-    {%- set lang = config.default_language -%}
-{%- else -%}
-    {%- set lang = "en" -%}
-{%- endif -%}
-{%- if config.title -%}
-    {%- set title = config.title -%}
-{%- else -%}
-    {%- set title = "" -%}
-{%- endif -%}
-{%- if config.extra.copyright -%}
-    {%- set copyright = config.extra.copyright -%}
-{%- else -%}
-    {%- set copyright = "" -%}
-{%- endif -%}
 <!DOCTYPE html>
-<html lang="{{- lang -}}">
+<html lang="{{ config.default_language | default(value='en') }}">
 <head>
-    <title>{%- block headerTitle -%}{{- title -}}{%- endblock -%}</title>
+    {% set site_title = config.title | default(value="") %}
+    {% set site_desc = config.description | default(value=config.extra.site_desc | default(value="")) %}
+    {% if page is defined %}
+        {% set page_title = page.title | default(value="") %}
+        {% if site_title and page_title %}
+            {% set meta_title = page_title ~ " - " ~ site_title %}
+        {% elif page_title %}
+            {% set meta_title = page_title %}
+        {% else %}
+            {% set meta_title = site_title %}
+        {% endif %}
+        {% set canonical_url = page.permalink %}
+        {% set meta_description = page.description | default(value=page.summary | default(value="") | striptags | truncate(length=160)) %}
+    {% elif section is defined %}
+        {% set section_title = section.title | default(value="") %}
+        {% if site_title and section_title %}
+            {% set meta_title = section_title ~ " - " ~ site_title %}
+        {% elif section_title %}
+            {% set meta_title = section_title %}
+        {% else %}
+            {% set meta_title = site_title %}
+        {% endif %}
+        {% set canonical_url = section.permalink %}
+        {% set meta_description = section.description | default(value=section.summary | default(value="") | striptags | truncate(length=160)) %}
+    {% else %}
+        {% set meta_title = site_title %}
+        {# Fallback canonical URL for contexts without `page` or `section` (e.g., 404, homepage) #}
+        {% set canonical_url = get_url(path='/', trailing_slash=true) %}
+        {% set meta_description = site_desc | striptags | truncate(length=160) %}
+    {% endif %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block headerTitle %}{{ meta_title }}{% endblock %}</title>
+    <meta name="description" content="{{ meta_description | safe }}">
+    <link rel="canonical" href="{{ canonical_url | safe }}">
+    <meta property="og:title" content="{{ meta_title | safe }}">
+    <meta property="og:description" content="{{ meta_description | safe }}">
+    <meta property="og:url" content="{{ canonical_url | safe }}">
+    {% if page is defined %}
+      <meta property="og:type" content="article">
+    {% else %}
+      <meta property="og:type" content="website">
+    {% endif %}
+    {% if page is defined and page.extra.image %}
+      {% if page.extra.image is matching("^http") %}
+        {% set og_image = page.extra.image %}
+      {% else %}
+        {% set og_image = get_url(path='/', trailing_slash=true) ~ page.extra.image %}
+      {% endif %}
+      <meta property="og:image" content="{{ og_image }}">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="{{ og_image }}">
+    {% else %}
+      <meta name="twitter:card" content="summary">
+    {% endif %}
+    {% if config.generate_feeds or config.feed_filename %}
+      <link rel="alternate" type="application/atom+xml" title="{{ site_title }}" href="{{ get_url(path='atom.xml') }}">
+    {% endif %}
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/css/zh-font-family.css">
     <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.css">
+    {% include "partials/analytics.html" %}
 </head>
 <body class="w3-light-grey">
+{% include "partials/consent.html" %}
 {% if config.extra.navigation_display_top %}
 {% if config.extra.navigation %}
     {% include "partials/navigation-list.html" %}
@@ -35,43 +78,42 @@
 {% endif %}
 <main>
     <div class="w3-content" style="max-width:1400px;margin-top:30px">
-        {%- if config.extra.site_name -%}
+        {% if config.extra.site_name %}
         <header class="w3-container w3-center w3-padding-32">
-            <h1><b>{{- config.extra.site_name | safe -}}</b></h1>
-            {%- if config.extra.site_desc -%}
-            <p>{{- config.extra.site_desc | safe -}}</p>
+            <h1><b>{{ config.extra.site_name | safe }}</b></h1>
+            {% if config.extra.site_desc %}
+            <p>{{ config.extra.site_desc | safe }}</p>
             {% endif %}
         </header>
-        {%- else -%}
+        {% else %}
         <header class="w3-container w3-center w3-padding-32">&nbsp;</header>
         {% endif %}
         <div class="w3-row">
             <div class="w3-col l8 s12">
-                {% block content %} {% endblock %}
+                {% block content %}{% endblock %}
             </div>
             <div class="w3-col l4">
-                {% if page.toc %}{% include "partials/page-toc.html" %}{% endif %}
+                {% if page is defined and page.toc %}{% include "partials/page-toc.html" %}{% endif %}
                 {% if config.extra.navigation_display_sidebar %}{% include "partials/navigation-sidebar.html" %}{% endif %}
                 {% if config.taxonomies %}{% include "partials/tags.html" %}{% endif %}
-                {% if config.search.index_format == 'fuse_javascript' %}{% include "partials/search.html" %}{% endif %}
+                {% if config.search is defined and config.search.index_format == 'fuse_javascript' %}{% include "partials/search.html" %}{% endif %}
             </div>
         </div>
     </div>
 </main>
 <footer class="w3-container w3-dark-grey w3-padding-16 w3-margin-top w3-center">
     <p>
-        {{- copyright -}}<br/>
+        {{ config.extra.copyright | default(value="") }}<br/>
         Powered by
-        <a href="https://www.getzola.org/" target="_blank">Zola</a>,
-        <a href="https://www.w3schools.com/w3css/" target="_blank">W3.CSS</a>,
-        <a href="https://github.com/4yuinfo/zola-theme_jiufen" target="_blank">JiuFen</a>.
+        <a href="https://www.getzola.org/" target="_blank" rel="noopener noreferrer">Zola</a>,
+        <a href="https://www.w3schools.com/w3css/" target="_blank" rel="noopener noreferrer">W3.CSS</a>,
+        <a href="https://github.com/4yuinfo/zola-theme_jiufen" target="_blank" rel="noopener noreferrer">JiuFen</a>.
     </p>
 </footer>
 <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/+esm'
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/+esm'
 </script>
-<script src="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/js/navigation.js"></script>
-<script src="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.js"></script>
-</div>
+<script src="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/js/navigation.js" defer></script>
+<script src="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.js" defer></script>
 </body>
 </html>

@@ -16,7 +16,7 @@
     {%- else -%}
         {%- set image = get_url(path='/', trailing_slash=true) ~ page.extra.image -%}
     {%- endif -%}
-  <img src="{{- image -}}" style="width:100%;">
+  <img src="{{ image }}" alt="{{ page.title }}" style="width:100%;" loading="lazy" decoding="async">
   {%- endif -%}
   <div class="w3-container w3-light-grey">
     <h1><b>{{ page.title }}</b></h1>
@@ -39,7 +39,7 @@
             {%- for key, value in page.taxonomies -%}
                 {%- for trem in value -%}
                     <span class="w3-tag w3-light-grey w3-margin-bottom">
-                        <a href="{{-get_url(path='/', trailing_slash=false)-}}/tags/{{- trem | safe-}}/" >{{- trem -}}</a>
+                        <a href="{{ get_taxonomy_url(kind=key, name=trem) }}">{{- trem -}}</a>
                     </span>
                 {%- endfor-%}
             {%- endfor-%}

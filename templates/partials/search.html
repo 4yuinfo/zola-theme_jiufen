@@ -1,21 +1,22 @@
 {%- set file = "search_index." ~ config.default_language ~ ".js" -%}
 <div class="w3-card w3-margin">
     <div class="w3-container w3-padding">
-        <h4><i class="fa fa-search"> Search </i></h4>
+        <h4><i class="fa fa-search" aria-hidden="true"></i> Search</h4>
     </div>
     <div class="w3-container w3-white">
-        <input class="w3-input w3-border w3-round" type="text" id="search-input">
+        <label class="w3-small" for="search-input">Search the site</label>
+        <input class="w3-input w3-border w3-round" type="text" id="search-input" placeholder="Type to search" aria-label="Search the site">
     </div>
     <div class="w3-container w3-white">
-        <ul class="w3-ul" id="search-results">
+        <ul class="w3-ul" id="search-results" aria-live="polite">
         </ul>
     </div>
 </div><hr/>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
-<script src="{{-get_url(path='/', trailing_slash=false)-}}/{{- file -}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js" defer></script>
+<script src="{{-get_url(path='/', trailing_slash=false)-}}/{{- file -}}" defer></script>
 <script>
     function generateSearchContext(rs){
-        context = '';
+        let context = '';
         rs.forEach((li) => {
             context+= '<li>';
             context+= '<a href="' + li.item.url + '">';
@@ -26,37 +27,23 @@
         return context;
     }
     const fuseOptions = {
-        // isCaseSensitive: false,
-        // includeScore: false,
-        // ignoreDiacritics: false,
-        // shouldSort: true,
-        // includeMatches: false,
-        // findAllMatches: false,
-        // minMatchCharLength: 1,
-        // location: 0,
-        // threshold: 0.6,
-        // distance: 100,
-        // useExtendedSearch: false,
-        // ignoreLocation: false,
-        // ignoreFieldNorm: false,
-        // fieldNormWeight: 1,
         keys: [
             "title",
             "description",
             "body"
         ]
     };
-    var fuse = new Fuse(searchIndex, fuseOptions);
-    var searchInput = document.getElementById("search-input");
-    var searchResults = document.getElementById("search-results");
-    if (searchInput && searchResults) {
-        searchInput.oninput = function() {
-            var rs = fuse.search(searchInput.value);
-            var SerchRS = generateSearchContext(rs);
-            searchResults.innerHTML = SerchRS;
+    document.addEventListener('DOMContentLoaded', function(){
+        if (typeof Fuse === 'undefined' || typeof searchIndex === 'undefined') return;
+        var fuse = new Fuse(searchIndex, fuseOptions);
+        var searchInput = document.getElementById("search-input");
+        var searchResults = document.getElementById("search-results");
+        if (searchInput && searchResults) {
+            searchInput.addEventListener('input', function() {
+                var rs = fuse.search(searchInput.value);
+                var SerchRS = generateSearchContext(rs);
+                searchResults.innerHTML = SerchRS;
+            });
         }
-    }
-
-
-
+    });
 </script>

@@ -1,0 +1,51 @@
+{# Google Analytics (gtag.js)
+ - Enable by setting `config.extra.google_analytics_id = "G-XXXXXXX"`.
+ - Optionally set `config.extra.google_analytics_anonymize_ip = true` to anonymize IPs.
+ - If `config.extra.google_analytics_consent` is true, Consent Mode (v2) banner and logic are enabled.
+#}
+{% if config.extra.google_analytics_id and config.extra.google_analytics_id | length > 0 %}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.google_analytics_id }}"></script>
+  <script data-jiufen-ga="{{ config.extra.google_analytics_id }}" data-anonymize="{{ config.extra.google_analytics_anonymize_ip | default(value=false) }}" data-consent="{{ config.extra.google_analytics_consent | default(value=false) }}">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    (function(){
+      var scriptEl = document.currentScript;
+      var id = scriptEl.getAttribute('data-jiufen-ga');
+      var anonymize = scriptEl.getAttribute('data-anonymize') === 'true';
+      var consentEnabled = scriptEl.getAttribute('data-consent') === 'true';
+
+      // Default Consent Mode settings
+      if (consentEnabled) {
+        gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'functionality_storage': 'granted',
+          'security_storage': 'granted'
+        });
+        // Check stored choice
+        var stored = (function(){ try { return localStorage.getItem('jiufen_ga_consent'); } catch(e){ return null; } })();
+        if (stored === 'granted') {
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'analytics_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted'
+          });
+          gtag('js', new Date());
+          if (anonymize) { gtag('config', id, { 'anonymize_ip': true }); }
+          else { gtag('config', id); }
+        }
+        // If no consent yet or denied, we do not configure GA until user accepts
+      } else {
+        // No consent feature: normal GA initialization
+        gtag('js', new Date());
+        if (anonymize) { gtag('config', id, { 'anonymize_ip': true }); }
+        else { gtag('config', id); }
+      }
+    })();
+  </script>
+{% endif %}

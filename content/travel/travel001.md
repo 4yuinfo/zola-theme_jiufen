@@ -4,7 +4,7 @@ date = 2025-05-01
 [taxonomies]
 tags=["Jiufen", "Travel"]
 [extra]
-image = "/images/header002.png"
+image = "images/header002.png"
 +++
 Jiufen is the name of an old street located on the island of Formosa (Taiwan).
 If you have the chance, you should definitely visit this island to experience life here.

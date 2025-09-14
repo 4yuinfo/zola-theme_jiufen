@@ -11,7 +11,7 @@
         <p>
         {% for trem in taxonomyTrem -%}
             {% if trem.page_count > 0 -%}
-            <span class="w3-tag w3-light-grey w3-margin-bottom"><a href="{{-get_url(path='/', trailing_slash=false)-}}/tags/{{trem.name | safe }}/" class="w3-button">{{trem.name}} <span class="w3-badge w3-green">{{ trem.page_count }}</span></a></span>&nbsp;
+            <span class="w3-tag w3-light-grey w3-margin-bottom"><a href="{{ get_taxonomy_url(kind=taxonomyName, name=trem.name) }}" class="w3-button">{{trem.name}} <span class="w3-badge w3-green">{{ trem.page_count }}</span></a></span>&nbsp;
             {% endif -%}
         {% endfor -%}
         </p>

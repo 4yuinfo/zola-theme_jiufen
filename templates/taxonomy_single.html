@@ -2,9 +2,9 @@
 
 {% block headerTitle %}
 {%- if config.title -%}
-    {{ current_path }} - {{ config.title }}
+    {{ term.name }} - {{ config.title }}
 {%- else -%}
-    {{ current_path }}
+    {{ term.name }}
 {%- endif -%}
 {% endblock headerTitle %}
 
@@ -22,7 +22,7 @@
         {% set section = data %}
         {% for page in section %}
         <div class="w3-panel w3-border-bottom w3-border-green">
-            <a href="{{-get_url(path='/', trailing_slash=false)-}}{{ page.path }}" style="text-decoration:none">{{ page.title }}</a>
+            <a href="{{ page.permalink }}" style="text-decoration:none">{{ page.title }}</a>
         </div>
         {% endfor %}
     </div>

@@ -41,15 +41,29 @@ include_path = false
 index_format = "fuse_javascript"
 
 [extra]
-site_name = '<img src="https://4yuinfo.github.io/zola-theme_jiufen/images/header001.png" width="100%")'
+site_name = '<img src="https://4yuinfo.github.io/zola-theme_jiufen/images/header001.png" width="100%">'
 site_desc = "Welcome to the Zola Theme Jiufen introduction website."
 copyright = "Copyright © 2025 Jiufen All rights reserved."
+
+# Google Analytics (gtag.js)
+# Set your GA4 Measurement ID to enable analytics, e.g., "G-XXXXXXXXXX"
+# Leave empty or remove the line to disable.
+# For privacy, you can anonymize IP addresses.
+# Consent Mode: set `google_analytics_consent = true` to enable a built‑in consent banner.
+# Optional: customize banner texts.
+# google_analytics_id = "G-XXXXXXXXXX"
+# google_analytics_anonymize_ip = true
+# google_analytics_consent = true
+# google_analytics_consent_message = "本網站使用 Cookie 以統計與改善體驗。您是否同意我們使用 Google Analytics 分析？"
+# google_analytics_consent_accept_text = "同意"
+# google_analytics_consent_decline_text = "不同意"
+
 navigation_display_top = true
 navigation_display_sidebar = true
 navigation = [
-    {name = '<i class="fa fa-home"></i>', url = "/", top=true, sitebar=false },
-    {name = "Theme", url = "/theme/", top=true, sitebar=true },
-    {name = "Travel", url = "/travel/", top=true, sitebar=true },
-    {name = "404", url = "/404/", top=true, sitebar=false },
-    {name = '<i class="fa-brands fa-github"></i> GitHub', url = "https://github.com/4yuinfo/zola-theme_jiufen", top=false, sitebar=true },
+    {name = '<i class="fa fa-home"></i>', url = "/", top=true, sidebar=false },
+    {name = "Theme", url = "/theme/", top=true, sidebar=true },
+    {name = "Travel", url = "/travel/", top=true, sidebar=true },
+    {name = "404", url = "/404/", top=true, sidebar=false },
+    {name = '<i class="fa-brands fa-github"></i> GitHub', url = "https://github.com/4yuinfo/zola-theme_jiufen", top=false, sidebar=true },
 ]

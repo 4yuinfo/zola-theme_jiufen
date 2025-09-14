@@ -1,6 +1,6 @@
-<div class="w3-card w3-margin">
+<div class="w3-card w3-margin" role="navigation" aria-label="Sidebar">
     <div class="w3-container w3-padding">
-        <h4><i class="fa-solid fa-sitemap"> Navigation </i></h4>
+        <h4><i class="fa-solid fa-sitemap" aria-hidden="true"></i> Navigation</h4>
     </div>
     <div class="w3-container w3-white">
         <ul class="w3-ul w3-hoverable w3-white">
@@ -12,7 +12,7 @@
                 {%- endif -%}
                 {%-if navigation.sidebar-%}
             <li class="w3-padding-8">
-                <a href="{{-navigation.url-}}" style="text-decoration:none">{{-navigation.name | safe-}}</a>
+                <a href="{{ url }}" style="text-decoration:none">{{ navigation.name | safe }}</a>
             </li>
             <p></p>
                 {%-endif-%}

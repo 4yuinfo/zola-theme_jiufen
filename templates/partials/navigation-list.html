@@ -1,7 +1,7 @@
-<nav>
+<nav role="navigation" aria-label="Main">
     <div class="w3-top">
         <div class="w3-bar w3-black w3-card">
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="mobileNavigation()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+            <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="#" onclick="mobileNavigation()" aria-controls="navMoblie" aria-expanded="false" title="Toggle Navigation Menu"><i class="fa fa-bars" aria-hidden="true"></i><span class="w3-hide">Menu</span></a>
             {%- for navigation in config.extra.navigation -%}
                 {%- if navigation.url is matching('^http') -%}
                     {%- set url = navigation.url -%}
@@ -9,7 +9,7 @@
                     {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
                 {%- endif -%}
                 {%-if navigation.top-%}
-            <a href="{{-url-}}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">{{ navigation.name | safe }}</a>
+            <a href="{{ url }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">{{ navigation.name | safe }}</a>
                 {%- endif -%}
             {%- endfor -%}
         </div>
@@ -22,7 +22,7 @@
                 {%- set url = get_url(path='/', trailing_slash=false) ~ navigation.url -%}
             {%- endif -%}
             {%-if navigation.top-%}
-        <a href="{{-url-}}" class="w3-bar-item w3-button w3-padding-large" onclick="mobileNavigation()">{{ navigation.name | safe }}</a>
+        <a href="{{ url }}" class="w3-bar-item w3-button w3-padding-large" onclick="mobileNavigation()">{{ navigation.name | safe }}</a>
             {%- endif -%}
         {%- endfor -%}
     </div>

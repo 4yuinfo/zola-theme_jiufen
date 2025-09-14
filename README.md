@@ -105,15 +105,45 @@ copyright = "Copyright © 2025 Saint Huang All rights reserved."
 navigation_display_top = true
 navigation_display_sidebar = true
 navigation = [
-    {name = '<i class="fa fa-home"></i>', url = "/",top=true, sitebar=false },
-    {name = "Blog", url = "/blog/", top=false, sitebar=true },
-    {name = "Camp", url = "/camp/", top=true, sitebar=false },
-    {name = "Travel", url = "/travel/", top=true, sitebar=false },
-    {name = "404", url = "/404/", top=true, sitebar=false },
+    {name = '<i class="fa fa-home"></i>', url = "/",top=true, sidebar=false },
+    {name = "Blog", url = "/blog/", top=false, sidebar=true },
+    {name = "Camp", url = "/camp/", top=true, sidebar=false },
+    {name = "Travel", url = "/travel/", top=true, sidebar=false },
+    {name = "404", url = "/404/", top=true, sidebar=false },
 ]
 ```
 
 #### Search
+
+#### Google Analytics（GA4）
+
+> Optional, Google Analytics
+```toml
+# config.toml
+[extra]
+# 啟用 GA4：填入你的 Measurement ID（格式類似 G-XXXXXXXXXX）
+# google_analytics_id = "G-XXXXXXXXXX"
+# 隱私選項：啟用 IP 匿名化（可選）
+# google_analytics_anonymize_ip = true
+```
+
+#### Google Analytics User consent（Consent Mode v2）
+
+> Optional, Google Analytics User consent
+```toml
+# config.toml
+[extra]
+# Enable GA4
+# google_analytics_id = "G-XXXXXXXXXX"
+# （Optional）IP Anonymization
+# google_analytics_anonymize_ip = true
+# Enable user consent banner
+# google_analytics_consent = true
+# （Optional）Customize banner text
+# google_analytics_consent_message = "This website uses cookies for statistics and to improve your experience. Do you agree to our use of Google Analytics?"
+# google_analytics_consent_accept_text = "agree"
+# google_analytics_consent_decline_text = "disagree"
+```
 
 > Optional, if you want search
 

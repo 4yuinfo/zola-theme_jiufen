@@ -20,7 +20,12 @@
 {%- if file_exists -%}
 <div class="w3-card-4 w3-margin w3-white">
   {%- if page.extra.image -%}
-  <img src="{{- page.extra.image -}}" style="width:100%;">
+    {%- if page.extra.image is matching('^http') -%}
+        {%- set image = page.extra.image -%}
+    {%- else -%}
+        {%- set image = get_url(path='/', trailing_slash=true) ~ page.extra.image -%}
+    {%- endif -%}
+  <img src="{{ image }}" alt="{{ page.title }}" style="width:100%;" loading="lazy" decoding="async">
   {%- endif -%}
   <div class="w3-container w3-light-grey">
     <h1><b>{{- page.title -}}</b></h1>
