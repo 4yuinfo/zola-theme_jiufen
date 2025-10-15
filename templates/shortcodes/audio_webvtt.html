@@ -1,0 +1,12 @@
+<div class="w3-container">
+    <audio class="audio-player" controls style="width:100%;">
+        <source src="{{ mp3_url }}" type="audio/mpeg">
+        {%- if vtt_url -%}
+        <track kind="subtitles" src="{{ vtt_url }}">
+        {%- endif -%}
+        Your browser does not support audio elements.
+    </audio>
+    {%- if vtt_url -%}
+    <div class="subtitle-display subtitle-container" style="width:100%;"></div>
+    {%- endif -%}
+</div>

@@ -204,6 +204,8 @@ paginate_by = 5
 
 ### Shortcodes
 
+audio_webvtt(mp3_url="",vtt_url="")
+
 youtube(id="")
 
 imageh100(path="")
