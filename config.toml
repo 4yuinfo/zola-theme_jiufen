@@ -51,12 +51,12 @@ copyright = "Copyright © 2025 Jiufen All rights reserved."
 # For privacy, you can anonymize IP addresses.
 # Consent Mode: set `google_analytics_consent = true` to enable a built‑in consent banner.
 # Optional: customize banner texts.
-# google_analytics_id = "G-XXXXXXXXXX"
-# google_analytics_anonymize_ip = true
-# google_analytics_consent = true
-# google_analytics_consent_message = "本網站使用 Cookie 以統計與改善體驗。您是否同意我們使用 Google Analytics 分析？"
-# google_analytics_consent_accept_text = "同意"
-# google_analytics_consent_decline_text = "不同意"
+google_analytics_id = "G-MM9Z6T9SKE"
+google_analytics_anonymize_ip = false
+google_analytics_consent = true
+google_analytics_consent_message = "This website uses cookies for statistics and to improve your experience. Do you agree to our use of Google Analytics?"
+google_analytics_consent_accept_text = "Agree"
+google_analytics_consent_decline_text = "DisAgree"
 
 navigation_display_top = true
 navigation_display_sidebar = true

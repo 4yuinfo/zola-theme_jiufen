@@ -7,67 +7,93 @@ Cookie/Consent banner for Google Analytics Consent Mode v2
   - config.extra.google_analytics_consent_decline_text
 #}
 {% if config.extra.google_analytics_id and config.extra.google_analytics_id | length > 0 and config.extra.google_analytics_consent %}
-<div id="jiufen-consent" class="jiufen-consent" role="dialog" aria-live="polite" aria-modal="false" aria-label="Cookie consent" hidden>
+<div id="jiufen-consent" class="jiufen-consent" role="region" aria-live="polite" aria-label="Analytics consent">
   <div class="jiufen-consent__inner">
     <p class="jiufen-consent__text">
       {{ config.extra.google_analytics_consent_message | default(value='本網站使用 Cookie 以統計與改善體驗。您是否同意我們使用 Google Analytics 分析？') }}
     </p>
     <div class="jiufen-consent__actions">
-      <button type="button" class="jiufen-consent__btn jiufen-consent__btn--primary" data-action="accept">
-        {{ config.extra.google_analytics_consent_accept_text | default(value='同意') }}
-      </button>
-      <button type="button" class="jiufen-consent__btn" data-action="decline">
-        {{ config.extra.google_analytics_consent_decline_text | default(value='不同意') }}
+      <button type="button"
+              class="jiufen-consent__btn jiufen-consent__switch"
+              role="switch"
+              aria-checked="false"
+              data-state="denied"
+              data-label-granted="{{ config.extra.google_analytics_consent_accept_text | default(value='同意') }}"
+              data-label-denied="{{ config.extra.google_analytics_consent_decline_text | default(value='不同意') }}"
+              aria-label="{{ config.extra.google_analytics_consent_decline_text | default(value='不同意') }}">
+        <span class="jiufen-consent__switch-icon" aria-hidden="true">Ｘ</span>
       </button>
     </div>
   </div>
 </div>
 <style>
-  .jiufen-consent{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#1f2937;color:#fff;padding:12px}
-  .jiufen-consent__inner{max-width:1100px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-  .jiufen-consent__text{margin:0;flex:1;min-width:240px}
-  .jiufen-consent__actions{display:flex;gap:8px}
-  .jiufen-consent__btn{border:1px solid #9ca3af;background:transparent;color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer}
-  .jiufen-consent__btn--primary{background:#10b981;border-color:#10b981;color:#0b231a}
-  .jiufen-consent__btn:focus{outline:2px solid #fff;outline-offset:2px}
+  /* Footer-integrated consent UI */
+  .jiufen-consent{color:#fff}
+  .jiufen-consent__inner{display:flex;gap:12px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+  .jiufen-consent__text{margin:0;min-width:220px;opacity:.9;font-size:.95rem}
+  .jiufen-consent__actions{display:flex;gap:10px}
+  /* Apple-like pill button (single toggle) */
+  .jiufen-consent__btn{appearance:none;-webkit-appearance:none;border-radius:9999px;padding:8px 16px;font-weight:600;border:1px solid #3a3a3c;background:#2c2c2e;color:#f5f5f7;box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 1px 2px rgba(0,0,0,.2);cursor:pointer;transition:background-color .2s ease,transform .02s}
+  .jiufen-consent__switch{min-width:56px;text-align:center}
+  .jiufen-consent__switch.is-on{background:#0a84ff;border-color:#0a84ff;color:#fff}
+  .jiufen-consent__btn:hover{filter:brightness(1.05)}
+  .jiufen-consent__btn:active{transform:translateY(1px)}
+  .jiufen-consent__btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  .jiufen-consent__switch-icon{display:inline-block;min-width:1em}
 </style>
 <script data-ga-id="{{ config.extra.google_analytics_id }}" data-anonymize="{{ config.extra.google_analytics_anonymize_ip | default(value=false) }}">
 (function(){
   var root = document.getElementById('jiufen-consent');
   if (!root) return;
+  var scriptEl = document.currentScript;
+  var id = scriptEl ? scriptEl.getAttribute('data-ga-id') : null;
+  var anonymize = scriptEl ? scriptEl.getAttribute('data-anonymize') === 'true' : false;
+
+  var toggle = root.querySelector('.jiufen-consent__switch');
+  if (!toggle) return;
+
   var stored = null;
   try { stored = localStorage.getItem('jiufen_ga_consent'); } catch(e) {}
-  if (stored === 'granted' || stored === 'denied') { return; }
-  root.hidden = false;
-  root.querySelectorAll('button[data-action]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var action = btn.getAttribute('data-action');
-      var grant = action === 'accept' ? 'granted' : 'denied';
-      try { localStorage.setItem('jiufen_ga_consent', grant); } catch(e) {}
-      // Update GA Consent Mode
-      if (typeof gtag === 'function') {
-        if (grant === 'granted') {
-          gtag('consent', 'update', {
-            'ad_storage': 'granted',
-            'analytics_storage': 'granted',
-            'ad_user_data': 'granted',
-            'ad_personalization': 'granted'
-          });
-          var id = document.currentScript.getAttribute('data-ga-id');
-          var anonymize = document.currentScript.getAttribute('data-anonymize') === 'true';
+  var state = (stored === 'granted') ? 'granted' : 'denied';
+
+  function render(){
+    toggle.setAttribute('data-state', state);
+    toggle.setAttribute('aria-checked', state === 'granted' ? 'true' : 'false');
+    toggle.classList.toggle('is-on', state === 'granted');
+    var icon = toggle.querySelector('.jiufen-consent__switch-icon');
+    if (icon) { icon.textContent = state === 'granted' ? 'Ｏ' : 'Ｘ'; }
+    var labelGranted = toggle.getAttribute('data-label-granted') || '同意';
+    var labelDenied = toggle.getAttribute('data-label-denied') || '不同意';
+    toggle.setAttribute('aria-label', state === 'granted' ? labelGranted : labelDenied);
+  }
+
+  render();
+
+  toggle.addEventListener('click', function(){
+    state = (state === 'granted') ? 'denied' : 'granted';
+    try { localStorage.setItem('jiufen_ga_consent', state); } catch(e) {}
+    if (typeof gtag === 'function') {
+      if (state === 'granted') {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'analytics_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted'
+        });
+        if (id) {
           gtag('js', new Date());
           if (anonymize) { gtag('config', id, { 'anonymize_ip': true }); } else { gtag('config', id); }
-        } else {
-          gtag('consent', 'update', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied',
-            'ad_user_data': 'denied',
-            'ad_personalization': 'denied'
-          });
         }
+      } else {
+        gtag('consent', 'update', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied'
+        });
       }
-      root.hidden = true;
-    }, { once: true });
+    }
+    render();
   });
 })();
 </script>

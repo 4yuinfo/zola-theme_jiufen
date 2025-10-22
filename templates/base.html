@@ -67,9 +67,18 @@
     <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/code-copy/code-copy.css">
     <link rel="stylesheet" href="{{-get_url(path='/', trailing_slash=false)-}}/jiufen/audio-webvtt/audio-webvtt.css">
     {% include "partials/analytics.html" %}
+  <style>
+    .jiufen-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1400px;margin:0 auto}
+    .jiufen-footer__left{text-align:left}
+    .jiufen-footer__right{display:flex;align-items:center;justify-content:flex-end}
+    .jiufen-footer__copy{margin:0}
+    @media (max-width: 768px){
+      .jiufen-footer{flex-direction:column;align-items:flex-start;gap:12px}
+      .jiufen-footer__right{width:100%}
+    }
+  </style>
 </head>
 <body class="w3-light-grey">
-{% include "partials/consent.html" %}
 {% if config.extra.navigation_display_top %}
 {% if config.extra.navigation %}
     {% include "partials/navigation-list.html" %}
@@ -102,14 +111,21 @@
         </div>
     </div>
 </main>
-<footer class="w3-container w3-dark-grey w3-padding-16 w3-margin-top w3-center">
-    <p>
+<footer class="w3-container w3-dark-grey w3-padding-16 w3-margin-top">
+  <div class="jiufen-footer">
+    <div class="jiufen-footer__left">
+      <p class="jiufen-footer__copy">
         {{ config.extra.copyright | default(value="") }}<br/>
         Powered by
         <a href="https://www.getzola.org/" target="_blank" rel="noopener noreferrer">Zola</a>,
         <a href="https://www.w3schools.com/w3css/" target="_blank" rel="noopener noreferrer">W3.CSS</a>,
         <a href="https://github.com/4yuinfo/zola-theme_jiufen" target="_blank" rel="noopener noreferrer">JiuFen</a>.
-    </p>
+      </p>
+    </div>
+    <div class="jiufen-footer__right">
+      {% include "partials/consent.html" %}
+    </div>
+  </div>
 </footer>
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/+esm'
