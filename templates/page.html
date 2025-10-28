@@ -31,7 +31,14 @@
         </span>
     </h5>
   </div>
-  <div class="w3-container"><p>{{- page.content | safe -}}</p></div>
+  <div class="w3-container">
+      <p>
+          {{- page.content
+            | replace(from='<table>', to='<table class="w3-table-all w3-hoverable">')
+            | replace(from='<thead><tr>', to='<thead><tr class="w3-green">')
+            | safe -}}
+      </p>
+  </div>
   <div class="w3-container w3-light-grey">
       <h5>
         <span class="w3-opacity"><i class="fa fa-tag"></i>
